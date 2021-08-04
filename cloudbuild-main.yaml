@@ -1,0 +1,84 @@
+steps:
+  # Grab cached M2 repo
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    id: Retrieve M2 Cache
+    entrypoint: gsutil
+    args: ['cp', 'gs://ons-ci-int-cloudbuild-maven-cache/m2.tar.gz', 'm2.tar.gz']
+      
+
+  # See https://github.com/GoogleCloudPlatform/cloud-builders-community to get the tar command
+  - name: europe-west2-docker.pkg.dev/ons-ci-int/int-docker-ci/cloudbuild/tar
+    id: Expand M2 Cache
+    args: ['xpzf', 'm2.tar.gz']
+
+
+  - name: openjdk:11-jdk-slim
+    id: Prepare JDK11
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        java -version
+    volumes:
+      - name: javahome
+        path: /usr/local/openjdk-11
+
+  - name: gcr.io/cloud-builders/git
+    id: Prepare Git
+    secretEnv: [ SDC_INT_COMMON_DEPLOY_KEY ]
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        echo "$$SDC_INT_COMMON_DEPLOY_KEY" >> /root/.ssh/id_rsa
+        chmod 600 /root/.ssh/id_rsa
+        cat <<EOF >/root/.ssh/config
+        Hostname github.com
+        IdentityFile /root/.ssh/id_rsa
+        EOF
+        ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+    volumes:
+      - name: ssh
+        path: /root/.ssh
+
+
+  - name: gcr.io/cloud-builders/git
+    id: Maven Release
+    secretEnv: [ SDC_INT_COMMON_DEPLOY_KEY ]
+    env:
+      - TZ=Europe/London
+      - JAVA_HOME=/usr/local/openjdk-11
+    entrypoint: bash
+    dir: /workspace
+    args:
+      - '-c'
+      - |
+        git config --global user.name censusintci
+        git config --global user.email philip.whiles@ext.ons.gov.uk
+        git branch -m main
+        ./mvnw -B release:prepare -s .mvn/cloudbuild-settings.xml -Dmaven.repo.local=/workspace/.m2/repository
+        ./mvnw -B release:perform -s .mvn/cloudbuild-settings.xml -Dmaven.repo.local=/workspace/.m2/repository -DskipTests=true
+    volumes:
+      - name: ssh
+        path: /root/.ssh
+      - name: javahome
+        path: /usr/local/openjdk-11
+
+
+  # Update M2 repo cache
+  - name: europe-west2-docker.pkg.dev/ons-ci-int/int-docker-ci/cloudbuild/tar
+    id: Compress M2 Cache
+    args: ['cpzf', 'm2.tar.gz', '.m2']
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    id: Backup M2 Cache
+    entrypoint: gsutil
+    args: ['cp', 'm2.tar.gz', 'gs://ons-ci-int-cloudbuild-maven-cache/m2.tar.gz']
+
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/415467542055/secrets/SDC_INT_COMMON_DEPLOY_KEY/versions/1
+      env: SDC_INT_COMMON_DEPLOY_KEY
+
+

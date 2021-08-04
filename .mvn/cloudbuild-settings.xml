@@ -1,0 +1,9 @@
+<settings>
+  <servers>
+     <server>
+       <id>ONS</id>
+       <username>git</username>
+       <privateKey>/root/.ssh/id_rsa</privateKey>
+     </server>
+  </servers>
+</settings>
