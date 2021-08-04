@@ -57,7 +57,7 @@ public class Wait {
       ExpectedCondition<?> condition, String timeoutMessage, int timeout) throws TimeoutException {
     WebDriverWait wait = new WebDriverWait(driver, timeout);
     wait.withMessage(timeoutMessage);
-    wait.until(condition);
+    wait.until(driver -> condition);
   }
 
   public void forLoading(int timeout) {
