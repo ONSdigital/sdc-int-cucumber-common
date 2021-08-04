@@ -1,17 +1,17 @@
 package uk.gov.ons.ctp.common.util;
 
-import com.godaddy.logging.Logger;
-import com.godaddy.logging.LoggerFactory;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class WebDriverFactory {
 
@@ -23,8 +23,6 @@ public class WebDriverFactory {
 
   @Value("${webdriver.headless}")
   private Boolean headless;
-
-  private static final Logger log = LoggerFactory.getLogger(WebDriverFactory.class);
 
   private static final int DRIVER_POOL_SIZE = 2;
   private static final int MAX_CLOSE_WAIT_ITERATIONS = 20;

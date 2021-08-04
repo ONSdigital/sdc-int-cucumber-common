@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.gov.ons.ctp.integration.common</groupId>
   <artifactId>cucumber-common</artifactId>
-  <version>0.0.24-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>CTP : Cucumber Common</name>
@@ -15,12 +15,13 @@
     <skip.dockerfile>true</skip.dockerfile>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <common.version>1.0.26</common.version>
   </properties>
 
   <parent>
-    <groupId>uk.gov.ons.ctp.integration</groupId>
-    <artifactId>census-int-common-config</artifactId>
-    <version>0.0.15</version>
+    <groupId>ons.sdc.int.common</groupId>
+    <artifactId>common</artifactId>
+    <version>1.0.26</version>
   </parent>
 
   <dependencies>
@@ -29,28 +30,24 @@
       <artifactId>selenium-java</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>com.godaddy</groupId>
-      <artifactId>logging</artifactId>
-    </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>1.12.1</version>
     </dependency>
+
     <!-- ONS dependencies start -->
     <dependency>
-      <groupId>uk.gov.ons.ctp.integration.common</groupId>
+      <groupId>ons.sdc.int.common</groupId>
       <artifactId>framework</artifactId>
-      <version>0.0.73</version>
+      <version>${common.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>uk.gov.ons.ctp.integration.common</groupId>
+      <groupId>ons.sdc.int.common</groupId>
       <artifactId>test-framework</artifactId>
-      <version>0.0.21-SNAPSHOT</version>
+      <version>${common.version}</version>
     </dependency>
     <!-- ONS dependencies end -->
 
@@ -77,23 +74,48 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <forkCount>1</forkCount>
-          <reuseForks>true</reuseForks>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
 
+  <repositories>
+    <repository>
+      <id>artifact-release-registry</id>
+      <url>artifactregistry://europe-west2-maven.pkg.dev/ons-ci-int/int-maven-release</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>artifact-snapshot-registry</id>
+      <url>artifactregistry://europe-west2-maven.pkg.dev/ons-ci-int/int-maven-snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>artifact-snapshot-registry</id>
+      <url>artifactregistry://europe-west2-maven.pkg.dev/ons-ci-int/int-maven-snapshot</url>
+    </snapshotRepository>
+    <repository>
+      <id>artifact-release-registry</id>
+      <url>artifactregistry://europe-west2-maven.pkg.dev/ons-ci-int/int-maven-release</url>
+    </repository>
+  </distributionManagement>
+
   <scm>
-    <url>https://github.com/ONSdigital/census-int-cucumber-common</url>
-    <connection>scm:git:https://github.com/ONSdigital/census-int-cucumber-common</connection>
-    <developerConnection>scm:git:https://github.com/ONSdigital/census-int-cucumber-common</developerConnection>
+    <connection>scm:git:ssh://github.com/ONSdigital/sdc-int-cucumber-common</connection>
+    <developerConnection>scm:git:ssh://github.com/ONSdigital/sdc-int-cucumber-common</developerConnection>
     <tag>HEAD</tag>
   </scm>
 

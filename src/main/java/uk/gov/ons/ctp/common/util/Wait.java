@@ -1,8 +1,7 @@
 package uk.gov.ons.ctp.common.util;
 
-import com.godaddy.logging.Logger;
-import com.godaddy.logging.LoggerFactory;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -19,10 +18,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * UI Waits until an expected condition occurs Waits for a specific element to be displayed Waits
  * for the presence of a specific element Waits for a page to fully load
  */
+@Slf4j
 public class Wait {
-
-  private static final Logger log = LoggerFactory.getLogger(Wait.class);
-
   private WebDriver driver;
   private static int DEFAULT_WAIT = 5; // 5 SECONDS
 
