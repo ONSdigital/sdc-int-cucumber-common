@@ -25,12 +25,12 @@ steps:
 
   - name: gcr.io/cloud-builders/git
     id: Prepare Git
-    secretEnv: [ SDC_INT_COMMON_DEPLOY_KEY ]
+    secretEnv: [ SDC_INT_CUCUMBER_COMMON_DEPLOY_KEY ]
     entrypoint: bash
     args:
       - -c
       - |
-        echo "$$SDC_INT_COMMON_DEPLOY_KEY" >> /root/.ssh/id_rsa
+        echo "$$SDC_INT_CUCUMBER_COMMON_DEPLOY_KEY" >> /root/.ssh/id_rsa
         chmod 600 /root/.ssh/id_rsa
         cat <<EOF >/root/.ssh/config
         Hostname github.com
@@ -44,7 +44,7 @@ steps:
 
   - name: gcr.io/cloud-builders/git
     id: Maven Release
-    secretEnv: [ SDC_INT_COMMON_DEPLOY_KEY ]
+    secretEnv: [ SDC_INT_CUCUMBER_COMMON_DEPLOY_KEY ]
     env:
       - TZ=Europe/London
       - JAVA_HOME=/usr/local/openjdk-11
@@ -78,7 +78,7 @@ steps:
 
 availableSecrets:
   secretManager:
-    - versionName: projects/415467542055/secrets/SDC_INT_COMMON_DEPLOY_KEY/versions/1
-      env: SDC_INT_COMMON_DEPLOY_KEY
+    - versionName: projects/415467542055/secrets/SDC_INT_CUCUMBER_COMMON_DEPLOY_KEY/versions/1
+      env: SDC_INT_CUCUMBER_COMMON_DEPLOY_KEY
 
 
