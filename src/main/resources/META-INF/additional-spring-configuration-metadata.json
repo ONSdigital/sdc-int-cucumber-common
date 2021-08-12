@@ -1,0 +1,87 @@
+{"properties": [
+  {
+    "name": "rhui.baseurl",
+    "type": "java.lang.String",
+    "description": "A description for 'rhui.baseurl'"
+  },
+  {
+    "name": "webdriver.type",
+    "type": "java.lang.String",
+    "description": "A description for 'webdriver.type'"
+  },
+  {
+    "name": "webdriver.logging_level",
+    "type": "java.lang.String",
+    "description": "A description for 'webdriver.logging_level'"
+  },
+  {
+    "name": "webdriver.headless",
+    "type": "java.lang.String",
+    "description": "A description for 'webdriver.headless'"
+  },
+  {
+    "name": "cloudStorage.case-schema-name",
+    "type": "java.lang.String",
+    "description": "A description for 'cloudStorage.case-schema-name'"
+  },
+  {
+    "name": "cloudStorage.uacSchemaName",
+    "type": "java.lang.String",
+    "description": "A description for 'cloudStorage.uacSchemaName'"
+  },
+  {
+    "name": "envoy.host",
+    "type": "java.lang.String",
+    "description": "A description for 'envoy.host'"
+  },
+  {
+    "name": "envoy.port",
+    "type": "java.lang.String",
+    "description": "A description for 'envoy.port'"
+  },
+  {
+    "name": "envoy.scheme",
+    "type": "java.lang.String",
+    "description": "A description for 'envoy.scheme'"
+  },
+  {
+    "name": "keystore",
+    "type": "java.lang.String",
+    "description": "A description for 'keystore'"
+  },
+  {
+    "name": "info.name",
+    "type": "java.lang.String",
+    "description": "A description for 'info.name'"
+  },
+  {
+    "name": "info.version",
+    "type": "java.lang.String",
+    "description": "A description for 'info.version'"
+  },
+  {
+    "name": "info.origin",
+    "type": "java.lang.String",
+    "description": "A description for 'info.origin'"
+  },
+  {
+    "name": "info.commit",
+    "type": "java.lang.String",
+    "description": "A description for 'info.commit'"
+  },
+  {
+    "name": "info.branch",
+    "type": "java.lang.String",
+    "description": "A description for 'info.branch'"
+  },
+  {
+    "name": "info.built",
+    "type": "java.lang.String",
+    "description": "A description for 'info.built'"
+  },
+  {
+    "name": "logging.profile",
+    "type": "java.lang.String",
+    "description": "A description for 'logging.profile'"
+  }
+]}

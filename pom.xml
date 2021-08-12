@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cucumber-common</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>CTP : Cucumber Common</name>
+  <description>CTP : Cucumber Common</description>
+
+  <properties>
+    <skip.integration.tests>true</skip.integration.tests>
+    <skip.dockerfile>true</skip.dockerfile>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <common.version>1.0.26</common.version>
+  </properties>
+
+  <parent>
+    <groupId>ons.sdc.int.common</groupId>
+    <artifactId>common</artifactId>
+    <version>1.0.27</version>
+  </parent>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.12.1</version>
+    </dependency>
+
+    <!-- ONS dependencies start -->
+    <dependency>
+      <groupId>ons.sdc.int.common</groupId>
+      <artifactId>framework</artifactId>
+      <version>${common.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ons.sdc.int.common</groupId>
+      <artifactId>test-framework</artifactId>
+      <version>${common.version}</version>
+    </dependency>
+    <!-- ONS dependencies end -->
+
+  </dependencies>
+
+  <build>
+    <defaultGoal>clean install</defaultGoal>
+
+    <plugins>
+      <plugin>
+        <groupId>com.coveo</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>artifact-release-registry</id>
+      <url>artifactregistry://europe-west2-maven.pkg.dev/ons-ci-int/int-maven-release</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>artifact-snapshot-registry</id>
+      <url>artifactregistry://europe-west2-maven.pkg.dev/ons-ci-int/int-maven-snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>artifact-snapshot-registry</id>
+      <url>artifactregistry://europe-west2-maven.pkg.dev/ons-ci-int/int-maven-snapshot</url>
+    </snapshotRepository>
+    <repository>
+      <id>artifact-release-registry</id>
+      <url>artifactregistry://europe-west2-maven.pkg.dev/ons-ci-int/int-maven-release</url>
+    </repository>
+  </distributionManagement>
+
+  <scm>
+    <connection>scm:git:ssh://github.com/ONSdigital/sdc-int-cucumber-common</connection>
+    <developerConnection>scm:git:ssh://github.com/ONSdigital/sdc-int-cucumber-common</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+</project>
