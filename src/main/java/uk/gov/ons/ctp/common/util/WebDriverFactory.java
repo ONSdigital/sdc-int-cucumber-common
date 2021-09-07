@@ -41,13 +41,18 @@ public class WebDriverFactory {
 
   public void closeWebDriver(WebDriver driver) {
     driversQuitting.incrementAndGet();
-    Thread t =
-        new Thread(
-            () -> {
-              driver.quit();
-              driversQuitting.decrementAndGet();
-            });
-    t.start();
+    if (usePool()) {
+      Thread t =
+          new Thread(
+              () -> {
+                driver.quit();
+                driversQuitting.decrementAndGet();
+              });
+      t.start();
+    } else {
+      driver.quit();
+      driversQuitting.decrementAndGet();
+    }
   }
 
   public WebDriver getWebDriver() {
