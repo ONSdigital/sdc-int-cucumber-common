@@ -108,6 +108,8 @@ public class WebDriverFactory {
     if (usePool()) {
       Thread cacheFillerThread = new Thread(this::fillPoolOfWebDrivers);
       cacheFillerThread.start();
+    } else {
+      log.info("Not using Pooled WebDrivers");
     }
   }
 
