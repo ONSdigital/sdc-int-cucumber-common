@@ -25,6 +25,9 @@ public class WebDriverFactory {
   @Value("${webdriver.headless}")
   private Boolean headless;
 
+  @Value("${pubsub.emulator.use:false}")
+  private boolean usingEmulator;
+
   private static final int DRIVER_POOL_SIZE = 2;
   private static final int MAX_CLOSE_WAIT_ITERATIONS = 20;
 
@@ -49,7 +52,7 @@ public class WebDriverFactory {
 
   public WebDriver getWebDriver() {
     try {
-      return numCores > 1 ? cachedWebDrivers.take() : createWebDriver();
+      return usePool() ? cachedWebDrivers.take() : createWebDriver();
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
@@ -90,13 +93,19 @@ public class WebDriverFactory {
     }
   }
 
+  private boolean usePool() {
+    return usingEmulator && headless && numCores > 1;
+  }
+
   @PostConstruct
   public void startup() {
     if (headless) {
       numCores = Runtime.getRuntime().availableProcessors();
+      log.info("Running cucumber with {} processor cores", numCores);
+    } else {
+      log.info("Running non-headless. Browser windows will appear.");
     }
-    log.info("Running cucumber with {} processor cores", numCores);
-    if (numCores > 1) {
+    if (usePool()) {
       Thread cacheFillerThread = new Thread(this::fillPoolOfWebDrivers);
       cacheFillerThread.start();
     }
