@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -65,15 +66,26 @@ public class WebDriverFactory {
   private void fillPoolOfWebDrivers() {
     while (!shutdown) {
       try {
-        WebDriver driver = createWebDriver();
-        if (shutdown) {
-          log.info("Adding freshly created driver to be closed");
-          closeWebDriver(driver);
-        } else {
-          cachedWebDrivers.put(driver);
+        try {
+          WebDriver driver = createWebDriver();
+          if (shutdown) {
+            log.info("Adding freshly created driver to be closed");
+            closeWebDriver(driver);
+          } else {
+            cachedWebDrivers.put(driver);
+          }
+        } catch (WebDriverException e) {
+          String msg = e.getMessage();
+          if (msg != null && msg.contains("can't kill an exited process")) {
+            log.warn("Known WebDriverException: {}", msg);
+          } else {
+            log.error("Unknown WebDriverException", e);
+          }
+          Thread.sleep(500);
+          log.info("Carry on and try to create WebDriver again");
         }
       } catch (InterruptedException e) {
-        throw new RuntimeException(e);
+        throw new RuntimeException("Pooling webdrivers interrupted - cannot carry on", e);
       }
     }
   }
