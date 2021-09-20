@@ -29,7 +29,7 @@ public class WebDriverFactory {
   private boolean usingEmulator;
 
   private static final int DRIVER_POOL_SIZE = 2;
-  private static final int MAX_CLOSE_WAIT_ITERATIONS = 20;
+  private static final int MAX_CLOSE_WAIT_TIME = 10000;
 
   private int numCores = 1;
   private boolean shutdown;
@@ -135,15 +135,29 @@ public class WebDriverFactory {
   }
 
   private void waitForAllDriversToQuit() {
-    int numClosing = driversQuitting.get();
-    for (int i = 0; i < MAX_CLOSE_WAIT_ITERATIONS && numClosing != 0; i++) {
-      log.info("Waiting for {} drivers to quit", numClosing);
+    log.info("Waiting for drivers to quit");
+
+    long startTime = System.currentTimeMillis();
+    boolean driverShutdownCompleted = false;
+
+    while (System.currentTimeMillis() - startTime < MAX_CLOSE_WAIT_TIME
+        && !driverShutdownCompleted) {
+      int numClosing = driversQuitting.get();
+      if (numClosing == 0) {
+        driverShutdownCompleted = true;
+        break;
+      }
+
       try {
-        Thread.sleep(500);
+        Thread.sleep(50);
         numClosing = driversQuitting.get();
       } catch (InterruptedException e) {
         // ignore
       }
+    }
+
+    if (!driverShutdownCompleted) {
+      log.warn("Failed to shutdown all drivers within the time limit");
     }
   }
 }
