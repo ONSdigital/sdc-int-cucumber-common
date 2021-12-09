@@ -14,13 +14,12 @@
     <skip.dockerfile>true</skip.dockerfile>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <common.version>1.0.26</common.version>
   </properties>
 
   <parent>
     <groupId>ons.sdc.int.common</groupId>
     <artifactId>common</artifactId>
-    <version>1.0.27</version>
+    <version>1.0.69-SNAPSHOT</version>
   </parent>
 
   <dependencies>
@@ -40,13 +39,13 @@
     <dependency>
       <groupId>ons.sdc.int.common</groupId>
       <artifactId>framework</artifactId>
-      <version>${common.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
       <groupId>ons.sdc.int.common</groupId>
       <artifactId>test-framework</artifactId>
-      <version>${common.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <!-- ONS dependencies end -->
 
