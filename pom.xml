@@ -19,7 +19,7 @@
   <parent>
     <groupId>ons.sdc.int.common</groupId>
     <artifactId>common</artifactId>
-    <version>1.0.69-SNAPSHOT</version>
+    <version>1.0.69</version>
   </parent>
 
   <dependencies>
